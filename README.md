@@ -42,7 +42,8 @@ FinanceIQ is a full-stack web application that helps users track, categorize, an
 ![Dashboard](screenshots/dashboard.png)
 
 ### Analytics Page
-![Analytics](screenshots/analytics.png)
+![Analytics 1](screenshots/analytics_1.png)
+![Analytics 2](screenshots/analytics_2.png)
 
 ### Transactions Page
 ![Transactions](screenshots/transactions.png)
