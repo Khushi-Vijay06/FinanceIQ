@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-0">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h4 class="mb-4">Add Expense</h4>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">Date</label>
+                            <input type="date" name="txn_date" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <input type="text" name="description" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select name="category" class="form-control">
+                                <option>Food & Dining</option>
+                                <option>Transport</option>
+                                <option>Shopping</option>
+                                <option>Utilities</option>
+                                <option>Entertainment</option>
+                                <option>Healthcare</option>
+                                <option>Investment</option>
+                                <option>Transfer</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Debit (Expense)</label>
+                            <input type="number" name="debit" class="form-control" step="0.01">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Credit (Income)</label>
+                            <input type="number" name="credit" class="form-control" step="0.01">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Add Transaction</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h4 class="mb-4">Edit Expense</h4>
+                    <form method="POST">
+
+                        <div class="mb-3">
+                            <label class="form-label">Date</label>
+                            <input type="date" name="txn_date" class="form-control" required
+                                   value="{{ txn[2] }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <input type="text" name="description" class="form-control" required
+                                   value="{{ txn[3] }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select name="category" class="form-control">
+                                <option {% if txn[8] == 'Food & Dining' %}selected{% endif %}>Food & Dining</option>
+                                <option {% if txn[8] == 'Transport' %}selected{% endif %}>Transport</option>
+                                <option {% if txn[8] == 'Shopping' %}selected{% endif %}>Shopping</option>
+                                <option {% if txn[8] == 'Utilities' %}selected{% endif %}>Utilities</option>
+                                <option {% if txn[8] == 'Entertainment' %}selected{% endif %}>Entertainment</option>
+                                <option {% if txn[8] == 'Healthcare' %}selected{% endif %}>Healthcare</option>
+                                <option {% if txn[8] == 'Investment' %}selected{% endif %}>Investment</option>
+                                <option {% if txn[8] == 'Transfer' %}selected{% endif %}>Transfer</option>
+                                <option {% if txn[8] == 'Other' %}selected{% endif %}>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Debit (Expense)</label>
+                            <input type="number" name="debit" class="form-control" step="0.01"
+                                   value="{{ txn[5] }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Credit (Income)</label>
+                            <input type="number" name="credit" class="form-control" step="0.01"
+                                   value="{{ txn[6] }}">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Update Expense</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+    --bg-main: #f0f2f5;
+    --bg-card: #ffffff;
+    --bg-navbar: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border-color: #e0e0e0;
+}
+
+body.dark-mode {
+    --bg-main: #121225;
+    --bg-card: #1e1e30;
+    --bg-navbar: #1e1e2e;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --border-color: #2e2e45;
+}
+        body {
+            background-color: var(--bg-main);
+    color: var(--text-primary);
+        }
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1a1a2e, #16213e);
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            z-index: 100;
+        }
+        .sidebar .brand {
+            color: #00d4ff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 10px 20px 30px 20px;
+            border-bottom: 1px solid #ffffff20;
+        }
+        .sidebar a {
+            display: block;
+            color: #ccc;
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #00d4ff20;
+            color: #00d4ff;
+            border-left: 3px solid #00d4ff;
+        }
+        .sidebar a i {
+            margin-right: 10px;
+            width: 20px;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+        }
+        .navbar-top {
+            background: white;
+            padding: 12px 25px;
+            border-bottom: 1px solid var(--border-color);
+            margin-left: 250px;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-top .page-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        #logoutModal h4, #logoutModal p {
+    color: #333 !important;
+}
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    {% if request.path != '/login' and request.path != '/register' %}
+    <div class="sidebar">
+        <div class="brand">
+            <i class="fas fa-chart-pie"></i> FinanceIQ
+        </div>
+        <a href="{{ url_for('dashboard.index') }}" class="{{ 'active' if request.endpoint == 'dashboard.index' }}">
+            <i class="fas fa-home"></i> Dashboard
+        </a>
+        <a href="{{ url_for('dashboard.transactions') }}" class="{{ 'active' if request.endpoint == 'dashboard.transactions' }}">
+            <i class="fas fa-list"></i> Transactions
+        </a>
+        <a href="{{ url_for('dashboard.add_expense') }}" class="{{ 'active' if request.endpoint == 'dashboard.add_expense' }}">
+            <i class="fas fa-plus-circle"></i> Add Expense
+        </a>
+        <a href="{{ url_for('dashboard.upload_csv') }}" class="{{ 'active' if request.endpoint == 'dashboard.upload_csv' }}">
+            <i class="fas fa-upload"></i> Upload CSV
+        </a>
+        <a href="{{ url_for('dashboard.analytics') }}" class="{{ 'active' if request.endpoint == 'dashboard.analytics' }}">
+            <i class="fas fa-chart-bar"></i> Analytics
+        </a>
+        <a href="#" onclick="confirmLogout()" style="margin-top: 30px; color: #ff6b6b;">
+    <i class="fas fa-sign-out-alt"></i> Logout
+</a>
+{% endif %}
+<!-- Logout Modal -->
+<!-- Logout Modal -->
+<div id="logoutModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+    <div style="background:white; border-radius:12px; padding:30px; text-align:center; width:300px;">
+        <i class="fas fa-sign-out-alt fa-2x text-danger mb-3"></i>
+        <h4 class="fw-bold mb-3">Logout</h4>
+
+<p class="text-muted mb-4">
+    Are you sure you want to log out?
+</p>
+        <div style="display:flex; justify-content:center; gap:20px;">
+
+    <button onclick="closeLogoutModal()" style="border:none; background:none; display:flex; flex-direction:column; align-items:center;">
+    <div style="width:60px; height:60px; border-radius:50%; background:#dc3545; display:flex; align-items:center; justify-content:center;">
+        <i class="fas fa-times" style="color:white; font-size:24px;"></i>
+    </div>
+    <span style="font-weight:620; color:#dc3545;">No</span>
+</button>
+
+    <a href="{{ url_for('auth.logout') }}" style="border:none; background:none; display:flex; flex-direction:column; align-items:center; margin-top:-11.8px;">
+    <div style="width:60px; height:60px; border-radius:50%; background:#28a745; display:flex; align-items:center; justify-content:center;">
+        <i class="fas fa-check" style="color:white; font-size:22px; margin-right:1px;"></i>
+</div>
+    <span style="font-weight:620; color:#28a745;">Yes</span>
+</a>
+
+</div>
+    </div>
+</div>
+
+<script>
+function confirmLogout() {
+    document.getElementById('logoutModal').style.display = 'flex';
+}
+function closeLogoutModal() {
+    document.getElementById('logoutModal').style.display = 'none';
+}
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const icon = document.getElementById('themeToggle');
+    if (document.body.classList.contains('dark-mode')) {
+        icon.classList.replace('fa-moon', 'fa-sun');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        icon.classList.replace('fa-sun', 'fa-moon');
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+window.onload = function() {
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('themeToggle').classList.replace('fa-moon', 'fa-sun');
+    }
+};
+</script>
+    </div>
+
+    <!-- Top Navbar -->
+    {% if request.path == '/login' or request.path == '/register' %}
+    <div class="navbar-top" style="margin-left: 0; width: 100%;">
+{% else %}
+    <div class="navbar-top">
+{% endif %}
+        <span class="page-title">{% block page_title %}Finance Analytics{% endblock %}</span>
+        <span style="color: #666; font-size: 1rem;">
+            <i class="fas fa-moon" id="themeToggle" onclick="toggleDarkMode()" style="cursor:pointer; margin-right:15px; color:#666;"></i>
+            <i class="fas fa-user-circle"></i> {{ session.get('username', '') }}
+        </span>
+    </div>
+
+    <!-- Flash Messages -->
+    {% if request.path == '/login' or request.path == '/register' %}
+    <div class="main-content" style="margin-left: 0; width: 100%;">
+{% else %}
+    <div class="main-content">
+{% endif %} 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" id="flashMessage">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+setTimeout(function() {
+    var alertEl = document.getElementById('flashMessage');
+    if (alertEl) {
+        var delay = alertEl.classList.contains('alert-warning') ? 2500 : 1000;
+        setTimeout(function() {
+            alertEl.classList.remove('show');
+            alertEl.classList.add('fade');
+            setTimeout(function() { alertEl.remove(); }, 300);
+        }, delay);
+    }
+}, 0);
+</script>
+</body>
+</html>
